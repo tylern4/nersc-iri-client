@@ -3,7 +3,6 @@ import time
 from functools import wraps
 from typing import Callable
 
-from .exceptions import AuthError
 from ._models import Status
 
 # The only legitimate difference between the asynchronous and the synchronous

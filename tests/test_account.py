@@ -1,3 +1,7 @@
+import pytest
+
+
+@pytest.mark.api_dev
 def test_projects(authenticated_client):
     with authenticated_client as client:
         projects = client.account.projects()
@@ -5,6 +9,7 @@ def test_projects(authenticated_client):
         assert all(p.id for p in projects)
 
 
+@pytest.mark.api_dev
 def test_project_usage(authenticated_client):
     with authenticated_client as client:
         projects = client.account.projects()

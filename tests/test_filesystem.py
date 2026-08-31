@@ -22,6 +22,7 @@ def test_dir(test_tmp_dir):
     return f"{test_tmp_dir}/iri_test_{rand}"
 
 
+@pytest.mark.api_dev
 def test_filesystem_roundtrip(authenticated_client, test_dir):
     with authenticated_client as client:
         fs = client.filesystem("scratch")
@@ -79,6 +80,7 @@ def test_filesystem_roundtrip(authenticated_client, test_dir):
                 pass
 
 
+@pytest.mark.api_dev
 def test_filesystem_task_failure(authenticated_client, test_dir):
     with authenticated_client as client:
         fs = client.filesystem("scratch")

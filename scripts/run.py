@@ -8,7 +8,6 @@ Mirrors the workflow of NERSC/sfapi_client:
 """
 
 import re
-import subprocess
 from pathlib import Path
 
 import typer

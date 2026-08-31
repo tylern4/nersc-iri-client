@@ -2,6 +2,7 @@ import pytest
 
 
 @pytest.mark.asyncio
+@pytest.mark.api_dev
 async def test_async_job_lifecycle(
     async_authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
@@ -42,6 +43,7 @@ async def test_async_job_lifecycle(
 
 
 @pytest.mark.asyncio
+@pytest.mark.api_dev
 async def test_async_job_cancel(
     async_authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
