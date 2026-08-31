@@ -24,6 +24,7 @@ dev = [
     "pytest",
     "pytest-asyncio",
     "pytest-mock",
+    "ruff~=0.11.10",
     "tenacity",
     "typer",
     "unasync",
