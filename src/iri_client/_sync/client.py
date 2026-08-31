@@ -94,6 +94,7 @@ class Client:
         access_token: Optional[str] = None,
         api_base_url: Optional[str] = IRI_BASE_URL,
         wait_interval: int = 10,
+        transport: Optional[httpx.BaseTransport] = None,
     ):
         """
         Create a client instance.
@@ -110,13 +111,15 @@ class Client:
         :param api_base_url: The API base URL
         :param wait_interval: Number of seconds to sleep between status polls
                               while waiting on jobs and tasks
-
+        :param transport: An optional httpx transport (e.g. MockTransport) used
+                          to test the client without a live network
         :return: The client instance
         :rtype: Client
         """
         self._access_token = access_token
         self._api_base_url = api_base_url
         self._wait_interval = wait_interval
+        self._transport = transport
         self.__http_client: Optional[httpx.Client] = None
         self._account = None
         self._facility = None
@@ -158,7 +161,9 @@ class Client:
             token = self._get_token()
             if token is not None:
                 headers.update({"Authorization": f"Bearer {token}"})
-            self.__http_client = httpx.Client(headers=headers)
+            self.__http_client = httpx.Client(
+                headers=headers, transport=self._transport
+            )
 
         return self.__http_client
 

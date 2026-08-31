@@ -42,7 +42,9 @@ jobs:
       - name: Sync dependencies
         run: uv sync --all-extras
 
+      # `python -m pytest` (rather than the `pytest` console script) puts the
+      # project root on sys.path, which the tests rely on for `tests.common`.
       # Live integration tests (marked `api_dev`) hit the NERSC IRI deployment
-      # and require a bearer token, so CI only runs the offline/unit tests.
+      # and require a bearer token, so CI only runs the token-free tests.
       - name: Run tests
-        run: uv run pytest -m "not api_dev" -q
+        run: uv run python -m pytest -m "not api_dev" -q
