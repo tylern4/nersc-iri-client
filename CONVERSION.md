@@ -226,8 +226,11 @@ await task                       # block on the first
 Every operation ships in two flavours:
 
 - `submit_*` → returns the `AsyncTask` so callers can poll, cancel, or batch it
-- blocking form (e.g. `fs.mkdir(...)`) → awaits the task and returns
-  `result.output` (or raises `IriError` on `failed`/`canceled`)
+- blocking form (e.g. `fs.mkdir(...)`) → awaits the task (or raises `IriError`
+  on `failed`/`canceled`), then unwraps `result.output` for data-returning
+  operations (`list`, `stat`, `view`, `head`, `tail`, `checksum`, `download`)
+  and returns `None` for mutating/void operations (`mkdir`, `chmod`, `chown`,
+  `copy`, `move`, `symlink`, `rm`, `upload`, `compress`, `extract`)
 
 ### `Storage.path()` / globus
 
