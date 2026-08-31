@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     IRI_ACCESS_TOKEN: Optional[str] = None
     TEST_JOB_ACCOUNT: Optional[str] = "m3792"
     TEST_JOB_QUEUE: Optional[str] = "debug"
-    TEST_TMP_DIR: Optional[str] = "/pscratch/sd/t/tylern/tmp/iri_client_tests"
+    TEST_TMP_DIR: Optional[str] = "/pscratch/sd/e/tylern/tmp/iri_client_tests"
     TEST_USERNAME: Optional[str] = "tylern"
 
     model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")

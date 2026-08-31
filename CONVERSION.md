@@ -190,7 +190,7 @@ spec = JobSpec(
     name="hello",
     executable="/usr/bin/cat",
     arguments=["/etc/os-release"],
-    stdout_path="/pscratch/sd/t/tylern/tmp/out.txt",
+    stdout_path="/pscratch/sd/e/tylern/tmp/out.txt",
     attributes={"queue_name": "debug", "account": "m3792", "duration": 60},
     resources={"node_count": 1, "processes_per_node": 1},
 )

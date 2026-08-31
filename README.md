@@ -68,9 +68,9 @@ with Client() as client:
             name="hello",
             executable="/bin/echo",
             arguments=["hello iri"],
-            directory="/pscratch/sd/t/elvis/tmp",
-            stdout_path="/pscratch/sd/t/elvis/tmp/hello.out",
-            stderr_path="/pscratch/sd/t/elvis/tmp/hello.err",
+            directory="/pscratch/sd/e/elvis/tmp",
+            stdout_path="/pscratch/sd/e/elvis/tmp/hello.out",
+            stderr_path="/pscratch/sd/e/elvis/tmp/hello.err",
             attributes={"queue_name": "debug", "account": "m3792", "duration": 60},
             resources={"node_count": 1, "processes_per_node": 1},
         )
@@ -82,7 +82,7 @@ with Client() as client:
 
     # List files on the scratch filesystem resource
     fs = client.filesystem(FilesystemResourceName.scratch)
-    for entry in fs.list("/pscratch/sd/t/elvis/tmp"):
+    for entry in fs.list("/pscratch/sd/e/elvis/tmp"):
         print(entry["name"], entry["type"], entry["size"])
 ```
 
@@ -104,7 +104,7 @@ async def main() -> None:
         await job.wait(timeout=300)           # or: await job
         print(f"state: {job.status.state}")
         fs = client.filesystem(FilesystemResourceName.scratch)
-        await fs.mkdir("/pscratch/sd/t/elvis/tmp/newdir")
+        await fs.mkdir("/pscratch/sd/e/elvis/tmp/newdir")
 
 
 asyncio.run(main())
@@ -190,15 +190,15 @@ Mutating/void operations (return `None`): `mkdir`, `chmod`, `chown`, `copy`,
 ```python
 fs = client.filesystem(FilesystemResourceName.scratch)
 
-entries = fs.list("/pscratch/sd/t/elvis/tmp")
-stat = fs.stat("/pscratch/sd/t/elvis/tmp/input.dat")
-contents = fs.tail("/pscratch/sd/t/elvis/tmp/out.err", lines=20)
-fs.mkdir("/pscratch/sd/t/elvis/tmp/newdir", parent=True)
-fs.copy("/pscratch/sd/t/elvis/tmp/a.dat", "/pscratch/sd/t/elvis/tmp/b.dat")
-fs.upload("/home/elvis/local.dat", "/pscratch/sd/t/elvis/tmp/local.dat")
+entries = fs.list("/pscratch/sd/e/elvis/tmp")
+stat = fs.stat("/pscratch/sd/e/elvis/tmp/input.dat")
+contents = fs.tail("/pscratch/sd/e/elvis/tmp/out.err", lines=20)
+fs.mkdir("/pscratch/sd/e/elvis/tmp/newdir", parent=True)
+fs.copy("/pscratch/sd/e/elvis/tmp/a.dat", "/pscratch/sd/e/elvis/tmp/b.dat")
+fs.upload("/home/elvis/local.dat", "/pscratch/sd/e/elvis/tmp/local.dat")
 
 # The asynchronous flavour lets you enqueue and await later
-task = fs.submit_mkdir("/pscratch/sd/t/elvis/tmp/newdir")
+task = fs.submit_mkdir("/pscratch/sd/e/elvis/tmp/newdir")
 # ... do other work ...
 task.wait()
 ```
