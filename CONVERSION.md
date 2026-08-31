@@ -80,13 +80,20 @@ from iri_client import (
 )
 
 with Client() as client:
-    compute = client.compute(ComputeResourceName.jobs)
+    compute = client.compute(ComputeResourceName.perlmutter)
     fs = client.filesystem(FilesystemResourceName.scratch)
 ```
 
-- `ComputeResourceName` → `jobs`, `compute`
+- `ComputeResourceName` → `jobs`, `compute`, `perlmutter`
 - `FilesystemResourceName` → `scratch`, `homes`, `common`, `cfs`, `dtns`,
   `jobs`, `compute`, `login`
+
+`perlmutter` is an *alias* for the `jobs` compute group: its value is literally
+`"jobs"`, so `client.compute(ComputeResourceName.perlmutter)` binds to the same
+resource the IRI deployment expects job submission against (Perlmutter). It is
+modeled as a group alias (rather than matching the server's `"Perlmutter"`
+display name) to keep resolution deterministic and unambiguous — there is no
+case-insensitive name matching anywhere in `_match_resource`.
 
 `client.compute()`/`client.filesystem()` accept an enum member or a plain
 string (or a resource `id`). Implementation note: a `str`-based enum's
@@ -293,7 +300,7 @@ Deliberate codegen-property notes:
 | Old (sfapi_client) | New (iri_client) |
 |---|---|
 | `AsyncClient(client_id, secret, key=...)` | `AsyncClient(access_token=...)` (or `IRI_API_TOKEN` / `~/.ssh/nersc-token`) |
-| `client.compute(Machine.perlmutter)` | `client.compute("jobs")` |
+| `client.compute(Machine.perlmutter)` | `client.compute(ComputeResourceName.perlmutter)` (alias for the `jobs` group) |
 | `client.storage` | `client.filesystem()` |
 | `client.projects()` | `client.account.projects()` |
 | `client.resources.status(name)` | `client.status.statuses(name)` |
