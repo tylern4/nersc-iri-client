@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/iri_client"]
+
+[project]
+name = "nersc-iri-client"
+version = "0.1.0"
+description = "Python client for the NERSC IRI API (https://api.iri.nersc.gov)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx",
+    "pydantic~=2.0",
+    "tenacity",
+]
+
+[project.optional-dependencies]
+dev = [
+    "datamodel-code-generator[http]",
+    "pydantic-settings",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-mock",
+    "tenacity",
+    "typer",
+    "unasync",
+]
+
+[tool.ruff]
+exclude = ["src/iri_client/_sync", "src/iri_client/_models"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
