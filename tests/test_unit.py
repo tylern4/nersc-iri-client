@@ -168,3 +168,50 @@ def test_resource_match_by_enum(monkeypatch):
         ).id
         == "uuid-jobs"
     )
+
+
+def test_resource_match_perlmutter(monkeypatch):
+    from iri_client._models import Resource, ResourceType, Status
+    from iri_client import ComputeResourceName
+    from iri_client._sync.client import (
+        ComputeResourceName as SyncComputeResourceName,
+    )
+
+    def make_resource(resource_id, name, group=None):
+        return Resource(
+            id=resource_id,
+            name=name,
+            group=group,
+            description="test",
+            last_modified="2026-02-21T12:00:00Z",
+            resource_type=ResourceType.compute,
+            current_status=Status.up,
+            site_uri="urn:site:0",
+            self_uri=f"urn:resource:{resource_id}",
+            capability_uris=[],
+        )
+
+    jobs = make_resource("urn:iri:resource:jobs", "Perlmutter", group="jobs")
+    compute = make_resource("urn:iri:resource:compute", "Perlmutter GPU", group="compute")
+
+    # ``perlmutter`` is an alias for the ``jobs`` compute group, so it must
+    # resolve to the jobs-group resource (regardless of list ordering).
+    assert (
+        AsyncClient._match_resource([jobs, compute], ComputeResourceName.perlmutter).id
+        == "urn:iri:resource:jobs"
+    )
+    assert (
+        AsyncClient._match_resource([compute, jobs], ComputeResourceName.perlmutter).id
+        == "urn:iri:resource:jobs"
+    )
+
+    # The sync client's enum class works in the async matcher too.
+    assert (
+        AsyncClient._match_resource(
+            [jobs, compute], SyncComputeResourceName.perlmutter
+        ).id
+        == "urn:iri:resource:jobs"
+    )
+
+    # `perlmutter` is literally the same value as `jobs`.
+    assert ComputeResourceName.perlmutter.value == ComputeResourceName.jobs.value

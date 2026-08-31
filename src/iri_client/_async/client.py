@@ -44,11 +44,14 @@ class ComputeResourceName(str, Enum):
 
     IRI compute resources are dynamic UUIDs, so names are a convenience: each
     member's value is a name/group the server recognises (see
-    ``AsyncClient.compute``).
+    ``AsyncClient.compute``).  ``jobs`` is the resource the IRI deployment
+    expects job submission against; ``perlmutter`` is an alias for the same
+    physical system (Perlmutter) and binds to the same ``jobs`` group.
     """
 
     jobs = "jobs"
     compute = "compute"
+    perlmutter = "jobs"
 
 
 class FilesystemResourceName(str, Enum):
@@ -294,7 +297,8 @@ class AsyncClient:
 
     @staticmethod
     def _match_resource(
-        resources: List[Resource], name: Optional[str] = None
+        resources: List[Resource],
+        name: Optional[Union[str, ComputeResourceName, FilesystemResourceName]] = None,
     ) -> Resource:
         """
         Resolve a resource from the discovery list by ``name``, ``group``, or
@@ -318,8 +322,10 @@ class AsyncClient:
 
         # Accept a plain string or a *ResourceName enum member.  Note that
         # ``str()`` on a str-Enum member yields "<EnumName>.<member>", so the
-        # value must be unwrapped via ``.value`` when present.
-        name = name.value if isinstance(name, Enum) else name
+        # value must be unwrapped via ``.value`` when present.  Because both
+        # enums are ``str, Enum``, ``name`` is a plain ``str`` after this.
+        if isinstance(name, Enum):
+            name = name.value
         for r in resources:
             if r.id == name or r.group == name or r.name == name:
                 return r
