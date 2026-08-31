@@ -44,7 +44,7 @@ jobs:
 
       # `python -m pytest` (rather than the `pytest` console script) puts the
       # project root on sys.path, which the tests rely on for `tests.common`.
-      # Live integration tests (marked `api_dev`) hit the NERSC IRI deployment
+      # Live integration tests (marked `api_auth`) hit the NERSC IRI deployment
       # and require a bearer token, so CI only runs the token-free tests.
       - name: Run tests
-        run: uv run python -m pytest -m "not api_dev" -q
+        run: uv run python -m pytest -m "not api_auth" -q

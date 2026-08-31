@@ -16,7 +16,7 @@ def _wait_for_state(job, allowed, timeout=120):
     raise TimeoutError(f"job {job.id} stalled in state {job.status.state}")
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_job_lifecycle(
     authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
@@ -40,7 +40,7 @@ def test_job_lifecycle(
         assert JobState.canceled.value == "canceled"
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_job_fetch_by_id(
     authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
@@ -61,7 +61,7 @@ def test_job_fetch_by_id(
         assert fetched.status.state == JobState.completed
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_job_cancel(
     authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
@@ -87,19 +87,19 @@ def test_job_cancel(
         assert state in (JobState.canceled, JobState.completed)
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_job_list(
     authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):
     with authenticated_client as client:
         compute = client.compute("jobs")
-        jobs = compute.list(filters={"user": "tylern"})
+        jobs = compute.list(filters={"user": "elvis"})
         assert len(jobs) >= 0
         for job in jobs:
             assert job.id
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_job_failed(
     authenticated_client, test_job_account, test_job_queue, test_tmp_dir
 ):

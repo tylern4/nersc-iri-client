@@ -22,7 +22,7 @@ def test_dir(test_tmp_dir):
     return f"{test_tmp_dir}/iri_test_{rand}"
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_filesystem_roundtrip(authenticated_client, test_dir):
     with authenticated_client as client:
         fs = client.filesystem("scratch")
@@ -59,7 +59,7 @@ def test_filesystem_roundtrip(authenticated_client, test_dir):
             fs.copy(f"{test_dir}/hello.txt", f"{test_dir}/copy.txt")
             fs.move(f"{test_dir}/copy.txt", f"{test_dir}/moved.txt")
             fs.chmod(f"{test_dir}/moved.txt", "640")
-            fs.chown(f"{test_dir}/moved.txt", group="tylern")
+            fs.chown(f"{test_dir}/moved.txt", group="elvis")
             fs.symlink(f"{test_dir}/hello.txt", f"{test_dir}/link")
             fs.compress(f"{test_dir}/hello.txt", f"{test_dir}/hello.tar.gz", "gzip")
 
@@ -80,7 +80,7 @@ def test_filesystem_roundtrip(authenticated_client, test_dir):
                 pass
 
 
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 def test_filesystem_task_failure(authenticated_client, test_dir):
     with authenticated_client as client:
         fs = client.filesystem("scratch")

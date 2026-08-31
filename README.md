@@ -223,7 +223,7 @@ public endpoints against `httpx.MockTransport` canned payloads.
 
 ```shell
 uv run ruff check .                          # lint
-uv run python -m pytest -m "not api_dev" -q  # offline tests
+uv run python -m pytest -m "not api_auth" -q  # offline tests
 ```
 
 ## Design notes

@@ -15,7 +15,7 @@ def test_dir(test_tmp_dir):
 
 
 @pytest.mark.asyncio
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 async def test_filesystem_task_await(async_authenticated_client, test_dir):
     async with async_authenticated_client as client:
         fs = await client.filesystem("scratch")
@@ -32,7 +32,7 @@ async def test_filesystem_task_await(async_authenticated_client, test_dir):
 
 
 @pytest.mark.asyncio
-@pytest.mark.api_dev
+@pytest.mark.api_auth
 async def test_async_filesystem_blocking(async_authenticated_client, test_dir):
     async with async_authenticated_client as client:
         fs = await client.filesystem("scratch")

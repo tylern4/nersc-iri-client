@@ -20,10 +20,10 @@ class Settings(BaseSettings):
 
     IRI_API_BASE_URL: str = "https://api.iri.nersc.gov/api/v1"
     IRI_ACCESS_TOKEN: Optional[str] = None
-    TEST_JOB_ACCOUNT: Optional[str] = "m3792"
+    TEST_JOB_ACCOUNT: Optional[str] = "m0000"
     TEST_JOB_QUEUE: Optional[str] = "debug"
-    TEST_TMP_DIR: Optional[str] = "/pscratch/sd/e/tylern/tmp/iri_client_tests"
-    TEST_USERNAME: Optional[str] = "tylern"
+    TEST_TMP_DIR: Optional[str] = "/pscratch/sd/e/elvis/tmp/iri_client_tests"
+    TEST_USERNAME: Optional[str] = "elvis"
 
     model_config = SettingsConfigDict(case_sensitive=True, env_file=".env")
 
