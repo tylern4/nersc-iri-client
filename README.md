@@ -62,7 +62,7 @@ with Client() as client:
     perlmutter = client.compute(ComputeResourceName.perlmutter)
 
     # Submit a short job on the debug queue
-    from iri_client._models import JobSpec
+    from iri_client import JobSpec
     job = perlmutter.submit(
         JobSpec(
             name="hello",
