@@ -23,8 +23,8 @@ uv sync --extra dev
 from iri_client import Client, ComputeResourceName, FilesystemResourceName
 
 with Client() as client:
-    # Discover and bind a compute resource by name/group
-    perlmutter = client.compute(ComputeResourceName.jobs)
+    # Discover and bind the Perlmutter compute resource (an alias for jobs)
+    perlmutter = client.compute(ComputeResourceName.perlmutter)
 
     # Submit a short job on the debug queue
     job = perlmutter.submit_job({
